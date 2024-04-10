@@ -1,60 +1,45 @@
-const Header = (x) => {
-  console.log(x)
+import { useState } from 'react'
+
+const History = (props) => {
+  if (props.allClicks.length === 0) {
+    return (
+      <div>
+        the app is used by pressing buttons
+      </div>
+    )
+  }
   return (
     <div>
-      <h1>{x.name}</h1>
+      button press History: {props.allClicks.join(' ')}
     </div>
-  )
-}
-
-const Content = (props) => {
-  return (
-    <div>
-      <Part name={props.props[0].name} num={props.props[0].exercises}/>
-      <Part name={props.props[1].name} num={props.props[1].exercises}/>
-      <Part name={props.props[2].name} num={props.props[2].exercises}/>
-    </div>
-  )
-}
-
-const Part = (props) => {
-  return (
-    <p>{props.name} {props.num}</p>
-  )
-}
-
-const Total = (props) => {
-  let sum = 0
-  props.props.forEach(element => {
-    sum += element.exercises
-  });
-  return (
-    <p>Number of exercises {sum}</p>
   )
 }
 
 const App = () => {
-  const course = 'Half Stack application development'
-  const parts = [
-    {
-      name: 'Fundamentals of React',
-      exercises: 10
-    },
-    {
-      name: 'Using props to pass data',
-      exercises: 7
-    },
-    {
-      name: 'State of a component',
-      exercises: 14
-    }
-  ]
+  const [left, setLeft] = useState(0)
+  const [right, setRight] = useState(0)
+  const [allClicks, setAll] = useState([])
+  const [total, setTotal] = useState(0)
+
+  const handleLeftClick = () => {
+    setLeft(left + 1)
+    setAll(allClicks.concat('L'))
+    setTotal(left + right)
+  }
+
+  const handleRightClick = () => {
+    setRight(right + 1)
+    setAll(allClicks.concat('R'))
+    setTotal(left + right)
+  }
 
   return (
     <div>
-      <Header name={course}/>
-      <Content  props={parts}/>
-      <Total props = {parts}/>
+      {left}
+      <button onClick={handleLeftClick}>left add</button>
+      <button onClick={handleRightClick}> right add </button>
+      {right}
+      <History allClicks={allClicks} />
     </div>
   )
 }
