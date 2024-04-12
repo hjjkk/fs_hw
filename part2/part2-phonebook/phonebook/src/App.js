@@ -10,6 +10,10 @@ const App = () => {
 
   const handleConcat = (e) => {
     e.preventDefault();
+    if (persons.some((person) => person.name === newName)) {
+      alert(`${newName} is already added to phonebook`);
+      return
+    }
     setPersons(
       persons.concat({
         name: newName,
@@ -24,7 +28,7 @@ const App = () => {
         <div>
           name: <input value={newName} onChange={handleNewName} />
         </div>
-      
+
         <div>
           <button type="submit" onClick={handleConcat}>
             add
