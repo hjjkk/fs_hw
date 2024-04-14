@@ -1,4 +1,7 @@
 import { useState } from "react";
+import Filter from "./components/filter";
+import PersonForm from "./components/form";
+import Persons from "./components/info";
 
 const App = () => {
   const [persons, setPersons] = useState([
@@ -11,63 +14,22 @@ const App = () => {
   const [newNumber, setNewNumber] = useState("");
   const [filterName, setFilterName] = useState("");
 
-  const handleNewName = (e) => {
-    setNewName(e.target.value);
-  };
-
-  const handleNewNumber = (e) => {
-    setNewNumber(e.target.value);
-  };
-
-  const handleConcat = (e) => {
-    e.preventDefault();
-    if (persons.some((person) => person.name === newName)) {
-      alert(`${newName} is already added to phonebook`);
-      return;
-    }
-    setPersons(
-      persons.concat({
-        name: newName,
-        phone: newNumber,
-      })
-    );
-  };
-
   return (
     <div>
       <h2>Phonebook</h2>
       <form>
-        <div>
-          filter shown with{" "}
-          <input
-            value={filterName}
-            onChange={(e) => setFilterName(e.target.value)}
-          />
-        </div>
-        <h2>add a new</h2>
-        <div>
-          name: <input value={newName} onChange={handleNewName} />
-        </div>
-        <div>
-          number: <input value={newNumber} onChange={handleNewNumber} />
-        </div>
-
-        <div>
-          <button type="submit" onClick={handleConcat}>
-            add
-          </button>
-        </div>
+        <Filter filterName={filterName} setFilterName={setFilterName} />
+        <PersonForm
+          newName={newName}
+          setNewName={setNewName}
+          newNumber={newNumber}
+          setNewNumber={setNewNumber}
+          persons={persons}
+          setPersons={setPersons}
+        />
       </form>
       <h2>Numbers</h2>
-      {persons
-        .filter((person) =>
-          person.name.toLowerCase().includes(filterName.toLowerCase())
-        )
-        .map((person) => (
-          <p key={person.name}>
-            {person.name} {person.phone}
-          </p>
-        ))}
+      <Persons persons={persons} filterName={filterName} />
     </div>
   );
 };
