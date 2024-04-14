@@ -24,7 +24,7 @@ const PersonForm = ({
 
   return (
     <div>
-      <h2>add a new</h2>
+
       <div>
         name:{" "}
         <input value={newName} onChange={(e) => setNewName(e.target.value)} />
